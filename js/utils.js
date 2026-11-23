@@ -89,7 +89,7 @@
   U.caseUrl = (slug) =>
     `case.html?slug=${encodeURIComponent(slug)}${U.isPreview ? "&preview=1" : ""}`;
 
-  U.homeUrl = (hash) => `portfolio.html${U.isPreview ? "?preview=1" : ""}${hash || ""}`;
+  U.homeUrl = (hash) => `index.html${U.isPreview ? "?preview=1" : ""}${hash || ""}`;
 
   U.STATUS = {
     autoral: "Trabalho fictício",

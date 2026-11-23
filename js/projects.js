@@ -10,7 +10,7 @@
    4. Quando estiver pronto, mude  published: false  para  published: true.
 
    PRÉ-VISUALIZAR RASCUNHOS
-   Abra  portfolio.html?preview=1  ou  case.html?slug=seu-slug&preview=1
+   Abra  index.html?preview=1  ou  case.html?slug=seu-slug&preview=1
    para ver os projetos com published: false (só você verá; o modo
    não aparece para visitantes que não usam o parâmetro).
 

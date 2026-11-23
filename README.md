@@ -5,7 +5,7 @@ Site estático (HTML, CSS e JavaScript puro). Não precisa de build nem de depen
 ## Estrutura
 
 ```
-portfolio.html    Home: hero, trabalhos, sobre, contato
+index.html    Home: hero, trabalhos, sobre, contato
 case.html         Página dinâmica do case (case.html?slug=...)
 404.html          Página de erro
 css/style.css     Todo o visual
@@ -35,7 +35,7 @@ Enquanto nenhum case estiver publicado, a home mostra o estado vazio "Novas idei
 
 ### Pré-visualizar rascunhos
 
-- `portfolio.html?preview=1`: mostra também os projetos com `published: false`
+- `index.html?preview=1`: mostra também os projetos com `published: false`
 - `case.html?slug=campanha-esportiva&preview=1`
 
 Uma barra preta no rodapé indica o modo de pré-visualização. Os visitantes não veem rascunhos.
@@ -67,7 +67,7 @@ Roteiros longos aparecem recolhidos, com o botão "Ler roteiro completo".
 
 ## Testar localmente
 
-Abra o `portfolio.html` direto no navegador ou rode um servidor simples:
+Abra o `index.html` direto no navegador ou rode um servidor simples:
 
 ```
 npx serve .
