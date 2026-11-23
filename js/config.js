@@ -46,6 +46,7 @@ window.SITE_CONFIG = {
     text:
       "Se você está montando uma dupla, um time de criação ou uma produção, vamos conversar.",
     email: "",     // ex.: "voce@dominio.com"
+    whatsapp: "https://wa.me/5547988868372",
     linkedin: "https://www.linkedin.com/in/emanuel-tanck-b06499343/",
     instagram: "", // opcional
     resume: "",    // opcional — ex.: "assets/curriculo.pdf"

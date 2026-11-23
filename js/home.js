@@ -149,6 +149,11 @@
     if (U.isEmail(c.email)) {
       links.push({ label: "E-mail", value: c.email.trim(), href: `mailto:${c.email.trim()}` });
     }
+    if (U.isUrl(c.whatsapp)) {
+      const d = c.whatsapp.replace(/\D/g, "").replace(/^55/, "");
+      const num = d.length === 11 ? `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}` : "Enviar mensagem";
+      links.push({ label: "WhatsApp", value: num, href: c.whatsapp.trim(), ext: true });
+    }
     if (U.isUrl(c.linkedin)) links.push({ label: "LinkedIn", value: "Ver perfil", href: c.linkedin.trim(), ext: true });
     if (U.isUrl(c.instagram)) links.push({ label: "Instagram", value: "Ver perfil", href: c.instagram.trim(), ext: true });
     if (U.isUrl(c.resume) || U.isLocalFile(c.resume)) {
