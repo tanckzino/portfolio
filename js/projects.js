@@ -10,7 +10,7 @@
    4. Quando estiver pronto, mude  published: false  para  published: true.
 
    PRÉ-VISUALIZAR RASCUNHOS
-   Abra  index.html?preview=1  ou  case.html?slug=seu-slug&preview=1
+   Abra  portfolio.html?preview=1  ou  case.html?slug=seu-slug&preview=1
    para ver os projetos com published: false (só você verá; o modo
    não aparece para visitantes que não usam o parâmetro).
 
@@ -28,8 +28,8 @@
    Aceita link do YouTube, Vimeo ou arquivo .mp4.
 
    CAMPOS DE REFERÊNCIA
-   id, slug, published, title, brand, year, category, description, tagline,
-   coverImage, coverStyle, heroImage, challenge, insight, creativeConcept,
+   id, slug, published, title, brand, brandLogo, brandWordmark, year, category, description, tagline,
+   coverImage, coverLogo, coverStyle, heroImage, challenge, insight, creativeConcept,
    manifesto, execution, scripts, gallery, credits, projectType
 
    category  → "Campanha Publicitária" | "Filme Publicitário" | "Storytelling" |
@@ -42,6 +42,350 @@
    ========================================================================== */
 
 window.PROJECTS = [
+  /* ------------------------------------------------------------------------
+     CASE 01 — SPOTIFY
+     ------------------------------------------------------------------------ */
+  {
+    id: 5,
+    slug: "spotify-o-que-se-passa-no-fone-dela",
+    published: true,
+
+    title: "O que se passa no fone dela?",
+    brand: "Spotify",
+    brandLogo: "assets/img/spotify/logo.svg",
+    brandWordmark: "assets/img/spotify/logo-texto.webp",
+    year: "2026",
+    category: "Filme Publicitário",
+    description:
+      "Um filme bem-humorado no qual dois adolescentes tentam adivinhar o que desconhecidos estão ouvindo e descobrem que as aparências enganam.",
+    tagline: "Cada um tem seu próprio flow.",
+
+    coverImage: "", // capa do card: logo (coverLogo). A foto fica só no topo do case.
+    coverLogo: "assets/img/spotify/logo-texto.webp",
+    coverAlt: "Dois estudantes num ponto de ônibus olham uma garota gótica de fone passar.",
+    coverStyle: "dark",
+    heroImage: "assets/img/spotify/cena-ponto-de-onibus.jpg",
+
+    /* Briefing: abre pelo botão "Ver briefing" na seção do desafio. */
+    briefing: {
+      title: "Briefing criativo — Spotify",
+      meta: [
+        ["Marca", "Spotify"],
+        ["Tipo de campanha", "Institucional"],
+        ["Mercado", "Brasil"],
+        ["Tema", "A música que você ouve conta quem você é."],
+      ],
+      sections: [
+        {
+          title: "Contexto",
+          text: [
+            "A música está presente em praticamente todos os momentos da rotina. No transporte público, na academia, no trabalho, nos estudos ou simplesmente enquanto caminhamos pela cidade.",
+            "Mas a música não é apenas entretenimento. Ela também representa gostos, emoções, memórias e aspectos da identidade de cada pessoa.",
+            "O Spotify quer explorar essa relação pessoal entre as pessoas e aquilo que elas escutam.",
+          ],
+        },
+        {
+          title: "O desafio",
+          text: [
+            "Criar uma campanha institucional que mostre como a música faz parte da identidade das pessoas.",
+            "A campanha deve gerar identificação, curiosidade e conexão emocional com o público, reforçando a presença do Spotify no cotidiano.",
+          ],
+          question: "Como mostrar que aquilo que escutamos pode revelar aspectos de quem somos?",
+        },
+        {
+          title: "Público-alvo",
+          text: [
+            "Jovens adultos de 18 a 34 anos, conectados à cultura, às tendências, ao entretenimento e às redes sociais.",
+            "Pessoas que utilizam a música para acompanhar atividades, expressar sentimentos e construir experiências pessoais.",
+          ],
+        },
+        {
+          title: "Objetivos de comunicação",
+          list: [
+            "Fortalecer a conexão emocional entre o público e o Spotify.",
+            "Reforçar a marca como parte da vida e da identidade das pessoas.",
+            "Criar uma campanha memorável, com potencial de gerar conversas e identificação.",
+            "Explorar um comportamento humano verdadeiro por meio de criatividade e storytelling.",
+          ],
+        },
+        {
+          title: "Restrições",
+          text: [
+            "A campanha não deve utilizar argumentos comerciais, como preços, planos, descontos ou benefícios de assinatura.",
+            "O foco é construir valor de marca, não vender um plano do Spotify.",
+            "Existe liberdade criativa para explorar humor, emoção, provocação, situações cotidianas e diferentes formatos narrativos.",
+          ],
+        },
+      ],
+    },
+
+    challenge:
+      "Demonstrar que os gostos musicais ultrapassam os estereótipos associados à aparência das pessoas.",
+
+    insight:
+      "Quando vemos alguém usando fones de ouvido, podemos imaginar o que essa pessoa escuta. *Mas nossas suposições dizem mais sobre nossos preconceitos do que sobre os gostos dela.*",
+
+    creativeConcept: {
+      title: "Cada um tem seu próprio flow.",
+      text:
+        "Um filme bem-humorado no qual dois adolescentes tentam adivinhar o que desconhecidos estão ouvindo e descobrem que as aparências enganam.",
+    },
+
+    manifesto: null,
+
+    execution: [
+      { type: "copy", label: "Peça principal", title: "Roteiro audiovisual", text: "Roteiro audiovisual com cenas, diálogos e indicações sonoras." },
+      { type: "copy", label: "Tom", text: "Descontraído, provocativo e bem-humorado." },
+      { type: "copy", label: "Linguagem audiovisual", text: "Cortes dinâmicos, ambientação urbana e transições sonoras entre o ambiente externo e o áudio dos fones." },
+      { type: "slogan", label: "Assinatura", text: "Spotify. *Cada um tem seu próprio flow.*" },
+    ],
+
+    scripts: [
+      {
+        title: "Filme 30\" — O que se passa no fone dela?",
+        duration: "30\"",
+        format: "Filme publicitário — campanha conceitual",
+        synopsis:
+          "Dois amigos num ponto de ônibus tentam adivinhar o que desconhecidos estão ouvindo. Erram todas.",
+        scenes: [
+          {
+            time: "00:00 — 00:05",
+            location: "ABERTURA — O SUPERPODER",
+            visual: "Dois amigos adolescentes, de mochila e uniforme escolar, estão sentados em um ponto de ônibus. Ao fundo, uma avenida movimentada, com carros e pedestres.",
+            dialogue: [
+              { character: "AMIGO 1", line: "Super-audição seria um superpoder inútil." },
+              { character: "AMIGO 2", line: "Inútil? Imagina descobrir o que todo mundo tá ouvindo no fone!" },
+            ],
+            sound: "Sons urbanos, trânsito e conversas ao fundo.",
+          },
+          {
+            time: "00:05 — 00:11",
+            location: "PRIMEIRA DESCOBERTA — A GAROTA GÓTICA",
+            visual: "A câmera acompanha o olhar dos meninos até uma garota vestida com roupas góticas, caminhando de fone.",
+            dialogue: [
+              { character: "AMIGO 1", line: "Aquela ali? Rock pesado, certeza." },
+              { character: "AMIGO 2", line: "Errou." },
+            ],
+            sound: "Transição sonora: o ruído da avenida desaparece. Entramos no universo sonoro da garota. No fone: BTS — *Dynamite*.",
+          },
+          {
+            time: "00:11 — 00:17",
+            location: "SEGUNDA DESCOBERTA — O EXECUTIVO",
+            visual: "Um homem de terno e gravata atravessa a calçada, com expressão séria e passos apressados.",
+            dialogue: [
+              { character: "AMIGO 1", line: "Tá, mas aquele de terno? Música clássica." },
+              { character: "AMIGO 2", line: "Errou de novo!" },
+            ],
+            sound: "Transição sonora: a câmera se aproxima e revela o que toca nos fones. No fone: João Gomes — *Dengo*.",
+          },
+          {
+            time: "00:17 — 00:23",
+            location: "TERCEIRA DESCOBERTA — O SKATISTA",
+            visual: "Um jovem de streetwear, segurando um skate, passa pelo ponto de ônibus. A câmera acompanha o skatista.",
+            dialogue: [
+              { character: "AMIGO 2", line: "Minha vez. Aquele ali? Rap pesado." },
+              { character: "AMIGO 1", line: "Tá difícil, hein!" },
+            ],
+            sound: "No fone: uma voz tranquila de podcast diz: \"Respire fundo. Encontre sua paz interior...\"",
+          },
+          {
+            time: "00:23 — 00:27",
+            location: "CLÍMAX — A REFLEXÃO",
+            visual: "A câmera retorna aos dois amigos. Eles trocam olhares e riem das tentativas frustradas. Ao fundo, o ônibus se aproxima.",
+            dialogue: [
+              { character: "AMIGO 1", line: "Não dá pra adivinhar ninguém só olhando." },
+              { character: "AMIGO 2", line: "É... cada um tem seu próprio flow." },
+            ],
+          },
+          {
+            time: "00:27 — 00:30",
+            location: "ENCERRAMENTO — SPOTIFY",
+            visual: "Os dois se levantam para entrar no ônibus. Tela final: logo Spotify sobre fundo preto, acompanhado da identidade verde da marca.",
+            dialogue: [
+              { character: "AMIGO 1", line: "Me dá meu lado do fone." },
+              { character: "AMIGO 2", line: "Só se o Spotify ficar comigo!" },
+            ],
+            onScreenText: "Spotify. Cada um tem seu próprio flow.",
+          },
+        ],
+        signature: "Spotify. Cada um tem seu próprio flow.",
+      },
+    ],
+
+    gallery: [],
+
+    credits: {
+      type: "Filme publicitário — campanha conceitual",
+      role: "Conceito e roteiro",
+      artDirection: "",
+      collaborators: [],
+    },
+    projectType: "autoral",
+  },
+
+  /* ------------------------------------------------------------------------
+     CASE 02 — CARMED X HALLOWEEN
+     ------------------------------------------------------------------------ */
+  {
+    id: 6,
+    slug: "carmed-x-halloween",
+    published: true,
+
+    title: "Carmed x Halloween",
+    brand: "Carmed",
+    brandWordmark: "assets/img/carmed/logo.png",
+    year: "2026",
+    category: "Campanha Publicitária",
+    description:
+      "Campanha de lançamento da coleção de Halloween da Carmed: uma festa à fantasia para influenciadores, pensada para ser vivida, gravada e compartilhada.",
+    tagline: "Com gostosuras e travessuras.",
+
+    coverImage: "",
+    coverLogo: "assets/img/carmed/logo.png",
+    coverStyle: "accent",
+    heroImage: "",
+
+    challenge: [
+      "*Como transformar o lançamento de uma coleção em um acontecimento?*",
+      "Para o Halloween, a Carmed apresentaria uma edição temática de seus hidratantes labiais: **Carmed x Halloween**.",
+      "O desafio era desenvolver uma campanha de lançamento capaz de despertar o interesse pelos novos produtos, gerar conversas nas redes sociais e aproximar a marca de seu público por meio de experiências e entretenimento.",
+      "Mais do que anunciar uma nova coleção, queríamos fazer o público acompanhar o lançamento.",
+    ],
+
+    insight: "No Halloween, todo mundo quer aparecer. *E todo mundo quer ver o que acontece.*",
+    insightText: [
+      "Fantasias, sustos, desafios e momentos inesperados fazem parte da data. São experiências que naturalmente despertam curiosidade e rendem histórias para compartilhar.",
+      "E quando essas experiências envolvem influenciadores, elas também podem se transformar em entretenimento para milhares de pessoas que não estão presentes.",
+      "**O insight central:** por que apenas divulgar uma coleção de Halloween quando podemos criar um Halloween inteiro para divulgá-la?",
+    ],
+
+    creativeConcept: {
+      title: "Com gostosuras e *travessuras.*",
+      text: [
+        "Nossa proposta foi transformar o lançamento em uma experiência de marca, conectando o universo do Halloween à personalidade divertida e descontraída da Carmed.",
+        "As gostosuras chegam com os produtos. As travessuras acontecem nas experiências.",
+        "Assim nasceu a ideia do **Halloween Carmed**: uma festa à fantasia exclusiva para influenciadores, planejada para gerar entretenimento, conteúdo e repercussão nas redes sociais.",
+        "O evento seria o centro da campanha, mas a comunicação começaria dias antes e continuaria depois da festa.",
+      ],
+    },
+
+    manifesto: null,
+
+    execution: [
+      {
+        type: "copy",
+        label: "Pré-evento",
+        title: "O Halloween começa antes",
+        text: [
+          "**Press kits e influência.** Dias antes do evento, os influenciadores convidados receberiam press kits exclusivos com os produtos da coleção Carmed x Halloween. A proposta era que os kits fossem apresentados em publicações no feed e nos stories, gerando curiosidade sobre os lançamentos e sobre a festa.",
+          "**Conteúdo obrigatório: Arrume-se Comigo com Carmed.** Cada influenciador também produziria um vídeo no formato *Get Ready With Me* (GRWM), mostrando sua preparação para o Halloween Carmed. A fantasia seria a protagonista da preparação, enquanto a Carmed faria parte do ritual de beleza.",
+          "O objetivo era inserir o produto em um formato já familiar ao público, transformando a preparação para a festa em mais um momento de divulgação.",
+        ],
+      },
+      {
+        type: "copy",
+        label: "O evento",
+        title: "Halloween Carmed",
+        text: [
+          "*Uma festa criada para ser vivida, gravada e compartilhada.*",
+          "O Halloween Carmed reuniria influenciadores em uma festa à fantasia com experiências interativas, desafios e momentos pensados para gerar conteúdo. Três ativações formariam a programação.",
+        ],
+      },
+      {
+        type: "copy",
+        label: "Ativação 01",
+        title: "Vivo ou morto",
+        text: [
+          "Uma brincadeira clássica transformada em desafio de Halloween.",
+          "Cada participante começaria com três vidas. A cada erro, perderia uma vida e deveria tomar uma misteriosa **poção temática**.",
+          "A dinâmica foi pensada para produzir reações divertidas, incentivar a participação dos convidados e render conteúdos para as redes sociais.",
+        ],
+      },
+      {
+        type: "copy",
+        label: "Ativação 02",
+        title: "Cabine do susto",
+        text: [
+          "*Uma foto normal. Uma reação nem tanto.*",
+          "Os convidados entrariam em uma cabine temática para tirar fotos. O que eles não saberiam é que, logo após o registro, seriam surpreendidos por um susto. Toda a reação seria gravada.",
+          "Os vídeos seriam disponibilizados rapidamente aos influenciadores, permitindo que compartilhassem os momentos em seus perfis ainda durante a festa.",
+          "A ideia era transformar uma simples cabine de fotos em uma fonte de conteúdos espontâneos e inesperados.",
+        ],
+      },
+      {
+        type: "copy",
+        label: "Ativação 03",
+        title: "Concurso de melhor fantasia",
+        text: [
+          "O Halloween Carmed também teria uma competição para eleger a melhor fantasia da noite. O influenciador vencedor receberia:",
+          "— Um troféu de melhor fantasia.\n— Um kit de produtos Carmed x Halloween.\n— R$ 1.000 em produtos Carmed destinados a uma ação de sorteio em seu Instagram.",
+          "Além de incentivar a criatividade dos convidados, a premiação permitiria estender a repercussão do evento aos seguidores do vencedor.",
+        ],
+      },
+      {
+        type: "copy",
+        label: "Cobertura",
+        title: "Um Met Gala do Halloween",
+        text: [
+          "*Quem disse que só quem foi à festa pode participar dela?*",
+          "Inspirados na cobertura de grandes eventos como o Met Gala, planejamos transformar o Halloween Carmed em um espetáculo digital: um perfil exclusivo no Instagram para acompanhar a festa em tempo real, com **Defante e Toguro como apresentadores**.",
+          "**Chegada dos convidados.** Stories apresentando os influenciadores conforme chegassem ao evento, com marcações para estimular repostagens.",
+          "**Entrevistas rápidas.** Conversas descontraídas com os convidados sobre fantasias, expectativas e acontecimentos da noite.",
+          "**Bastidores e ativações.** Publicações com fotos, vídeos, desafios, sustos e momentos inesperados da festa.",
+          "**Conteúdo em tempo real.** Atualizações constantes no feed e nos stories para permitir que o público acompanhasse o Halloween Carmed mesmo sem estar presente.",
+          "O objetivo era fazer a festa ultrapassar os limites do espaço físico, transformando os acontecimentos em entretenimento digital.",
+        ],
+      },
+      {
+        type: "copy",
+        label: "Amplificação",
+        title: "Todo mundo vai ficar sabendo",
+        text: [
+          "Para expandir a divulgação da coleção além dos convidados e de seus seguidores, a campanha contaria com uma estratégia de mídia integrada.",
+          "**Páginas de entretenimento e fofoca.** Compra de mídia em perfis do Instagram e do X (Twitter), aproveitando o formato de repercussão dessas páginas para distribuir conteúdos relacionados à festa, aos influenciadores e às ativações.",
+          "**Hashtag oficial: #HalloweenCarmed.** Uma hashtag para reunir publicações dos influenciadores, conteúdos da cobertura e interações relacionadas à campanha.",
+          "**Mídia exterior (OOH).** Outdoors distribuídos por São Paulo para divulgar a coleção Carmed x Halloween e levar a identidade visual do lançamento também para as ruas.",
+          "A integração entre influência, conteúdo digital e mídia exterior buscaria ampliar os pontos de contato do público com a campanha.",
+        ],
+      },
+      {
+        type: "copy",
+        label: "A ideia por trás de tudo",
+        title: "Antes, durante e depois",
+        text: [
+          "A estratégia foi construída para fazer o lançamento acontecer em diferentes momentos.",
+          "**Antes da festa**, os press kits e os vídeos de preparação despertariam curiosidade.",
+          "**Durante a festa**, as ativações e a cobertura em tempo real produziriam entretenimento e oportunidades de compartilhamento.",
+          "**Depois da festa**, os conteúdos registrados, a repercussão nas redes e a ação promocional prolongariam a presença da coleção no ambiente digital.",
+          "Cada etapa foi pensada para alimentar a próxima.",
+        ],
+      },
+      {
+        type: "copy",
+        label: "Defesa criativa",
+        title: "Algo para contar",
+        text: [
+          "O Halloween Carmed nasceu de uma ideia: **não queríamos apenas que os influenciadores falassem sobre o lançamento. Queríamos dar a eles algo para contar.**",
+          "Em vez de depender exclusivamente de publicações tradicionais de produto, propusemos experiências capazes de gerar histórias, reações e conversas.",
+          "O evento seria o ponto de partida. O verdadeiro alcance da campanha viria das pessoas compartilhando aquilo que viveram — ou acompanharam pelas redes sociais.",
+          "Porque, no Halloween, as melhores histórias sempre têm um pouco de gostosura e um pouco de travessura.",
+        ],
+      },
+      { type: "slogan", label: "Assinatura", text: "Carmed x Halloween. *Com gostosuras e travessuras.*" },
+    ],
+
+    scripts: [],
+    gallery: [],
+
+    credits: {
+      type: "Campanha de lançamento — marketing de influência, experiência de marca e criação publicitária",
+      role: "Projeto desenvolvido em equipe",
+      artDirection: "",
+      collaborators: [],
+    },
+    projectType: "academico",
+  },
+
   /* ------------------------------------------------------------------------
      MODELO 1 — CAMPANHA ESPORTIVA (exemplo completo de todos os campos)
      ------------------------------------------------------------------------ */

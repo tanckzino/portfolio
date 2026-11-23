@@ -8,12 +8,8 @@
   const U = window.U;
   const C = window.SITE_CONFIG || {};
 
-  let sectionCount = 0;
-  const nextNumber = () => U.pad(++sectionCount);
-
-  /* Cabeçalho padrão de seção: "02 — O desafio" */
-  const label = (text) =>
-    `<p class="case-label"><span class="case-label__num">${nextNumber()}</span><span>${U.esc(text)}</span></p>`;
+  /* Cabeçalho padrão de seção: "O desafio" */
+  const label = (text) => `<p class="case-label"><span>${U.esc(text)}</span></p>`;
 
   /* ---------- 01 · Hero ---------- */
   function hero(p, index) {
@@ -31,7 +27,7 @@
           <h1 class="case-hero__title">${U.lines(p.title)}</h1>
           ${U.filled(p.tagline) ? `<p class="case-hero__tagline reveal">${U.inline(p.tagline)}</p>` : ""}
           <dl class="case-hero__meta reveal">
-            ${meta.map(([k, v]) => `<div><dt>${k}</dt><dd>${U.esc(v)}</dd></div>`).join("")}
+            ${meta.map(([k, v]) => `<div><dt>${k}</dt><dd>${k === "Marca" ? U.brandMark(p, { wordmark: true }) : U.esc(v)}</dd></div>`).join("")}
           </dl>
         </div>
         <figure class="case-hero__media reveal">
@@ -42,12 +38,57 @@
 
   /* ---------- 02 · Desafio ---------- */
   function challenge(p) {
-    if (!U.filled(p.challenge)) return "";
+    if (!U.filled(p.challenge) && !U.filled(p.briefing)) return "";
+    const btn = U.filled(p.briefing)
+      ? `<button type="button" class="btn btn--ghost briefing-open" data-briefing-open>Ver briefing <span aria-hidden="true">↗</span></button>`
+      : "";
     return `
       <section class="case-sec container reveal" aria-label="O desafio">
         <div class="case-sec__aside">${label("O desafio")}</div>
-        <div class="case-sec__body prose">${U.paras(p.challenge)}</div>
+        <div class="case-sec__body prose">${U.paras(p.challenge)}${btn}</div>
       </section>`;
+  }
+
+  /* ---------- Briefing (janela) ---------- */
+  function briefingDoc(p) {
+    const b = p.briefing;
+    if (!U.filled(b)) return "";
+    const meta = (Array.isArray(b.meta) ? b.meta : []).filter(([, v]) => U.filled(v));
+    const sections = (Array.isArray(b.sections) ? b.sections : []).filter(U.filled);
+    return `
+      <dialog class="briefing" id="briefing" aria-labelledby="briefing-title">
+        <div class="briefing__sheet">
+          <div class="briefing__bar">
+            <p class="briefing__kicker">Briefing</p>
+            <button type="button" class="briefing__close" data-close>Fechar <span aria-hidden="true">×</span></button>
+          </div>
+          <h2 class="briefing__title" id="briefing-title">${U.inline(b.title || `Briefing — ${p.brand || ""}`)}</h2>
+          ${meta.length ? `<dl class="briefing__meta">${meta.map(([k, v]) => `<div><dt>${U.esc(k)}</dt><dd>${U.inline(v)}</dd></div>`).join("")}</dl>` : ""}
+          ${sections
+            .map(
+              (s, i) => `
+            <section class="briefing__sec">
+              <h3><span>${U.pad(i + 1)}</span>${U.esc(s.title || "")}</h3>
+              ${U.paras(s.text)}
+              ${U.filled(s.question) ? `<blockquote class="briefing__question">${U.inline(s.question)}</blockquote>` : ""}
+              ${Array.isArray(s.list) && s.list.some(U.filled) ? `<ul>${s.list.filter(U.filled).map((li) => `<li>${U.inline(li)}</li>`).join("")}</ul>` : ""}
+            </section>`
+            )
+            .join("")}
+        </div>
+      </dialog>`;
+  }
+
+  function bindBriefing(root) {
+    const dialog = document.getElementById("briefing");
+    const open = root.querySelector("[data-briefing-open]");
+    if (!dialog || !open) return;
+    if (typeof dialog.showModal !== "function") { open.remove(); return; }
+    open.addEventListener("click", () => dialog.showModal());
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog || e.target.closest("[data-close]")) dialog.close();
+    });
+    dialog.addEventListener("close", () => open.focus());
   }
 
   /* ---------- 03 · Insight ---------- */
@@ -56,11 +97,12 @@
     return `
       <section class="case-insight" aria-label="O insight">
         <div class="container">
-          <div class="reveal reveal--left">${label("O insight")}</div>
+          <div class="reveal">${label("O insight")}</div>
           <blockquote class="case-insight__quote reveal">
             <span class="case-insight__mark" aria-hidden="true">“</span>
             ${U.paras(p.insight)}
           </blockquote>
+          ${U.filled(p.insightText) ? `<div class="case-insight__text prose reveal">${U.paras(p.insightText)}</div>` : ""}
         </div>
       </section>`;
   }
@@ -74,7 +116,7 @@
     return `
       <section class="case-concept" aria-label="O conceito criativo">
         <div class="case-concept__poster container">
-          <div class="case-concept__top reveal reveal--left">${label("O conceito criativo")}<span class="case-concept__brand">${U.esc(p.brand || "")}</span></div>
+          <div class="case-concept__top reveal">${label("O conceito criativo")}<span class="case-concept__brand">${U.brandMark(p)}</span></div>
           ${U.filled(title) ? `<h2 class="case-concept__title">${U.lines(title)}</h2>` : ""}
           ${U.filled(text) ? `<div class="case-concept__text reveal">${U.paras(text)}</div>` : ""}
         </div>
@@ -134,7 +176,7 @@
     if (!items.length && !man) return "";
     return `
       <section class="case-sec case-sec--stack container" aria-label="A execução">
-        <div class="case-sec__aside reveal reveal--left">${label("A execução")}</div>
+        <div class="case-sec__aside reveal">${label("A execução")}</div>
         <div class="exec-list">${man}${items.join("")}</div>
       </section>`;
   }
@@ -164,9 +206,9 @@
           ${U.filled(s.location) ? `<p class="sc-heading">${U.esc(s.location)}</p>` : ""}
           ${U.filled(s.visual) ? `<p class="sc-action">${U.inline(s.visual)}</p>` : ""}
           ${dialogue}
-          ${U.filled(s.voiceover) ? `<p class="sc-tag sc-tag--vo"><span>Locução</span>${U.inline(s.voiceover)}</p>` : ""}
+          ${U.filled(s.voiceover) ? `<p class="sc-tag sc-tag--vo"><span>Locução</span><span>${U.inline(s.voiceover)}</span></p>` : ""}
           ${U.filled(s.onScreenText) ? `<p class="sc-tag sc-tag--super"><span>Texto na tela</span><strong>${U.inline(s.onScreenText)}</strong></p>` : ""}
-          ${U.filled(s.sound) ? `<p class="sc-tag sc-tag--sound"><span>Trilha / Som</span>${U.inline(s.sound)}</p>` : ""}
+          ${U.filled(s.sound) ? `<p class="sc-tag sc-tag--sound"><span>Trilha / Som</span><span>${U.inline(s.sound)}</span></p>` : ""}
         </div>
       </li>`;
   }
@@ -192,13 +234,10 @@
         ${
           scenes.length || U.filled(s.signature)
             ? `
-        <div class="script__body is-collapsed" id="${id}">
+        <div class="script__body" id="${id}">
           <ol class="scene-list">${scenes.map(scene).join("")}</ol>
-          ${U.filled(s.signature) ? `<p class="script__sign"><span>Assinatura</span>${U.inline(s.signature)}</p>` : ""}
-        </div>
-        <button type="button" class="script__toggle" aria-expanded="false" aria-controls="${id}">
-          <span class="script__toggle-label">Ler roteiro completo</span><span class="script__toggle-icon" aria-hidden="true">+</span>
-        </button>`
+          ${U.filled(s.signature) ? `<p class="script__sign"><span>Assinatura</span><strong>${U.inline(s.signature)}</strong></p>` : ""}
+        </div>`
             : ""
         }
       </article>`;
@@ -208,8 +247,8 @@
     const list = (Array.isArray(p.scripts) ? p.scripts : []).filter(U.filled);
     if (!list.length) return "";
     return `
-      <section class="case-sec case-sec--stack container" aria-label="Roteiros audiovisuais">
-        <div class="case-sec__aside reveal reveal--left">${label(list.length > 1 ? "Roteiros" : "Roteiro")}</div>
+      <section class="case-sec case-sec--script container" aria-label="Roteiros audiovisuais">
+        <div class="script-section__label reveal">${label(list.length > 1 ? "Roteiros" : "Roteiro")}</div>
         <div class="script-list">${list.map((s, i) => script(s, i, pIndex)).join("")}</div>
       </section>`;
   }
@@ -220,7 +259,7 @@
     if (!items.length) return "";
     return `
       <section class="case-sec case-sec--stack container" aria-label="Desdobramentos">
-        <div class="case-sec__aside reveal reveal--left">${label("Desdobramentos")}</div>
+        <div class="case-sec__aside reveal">${label("Desdobramentos")}</div>
         <div class="gallery">
           ${items
             .map((g) => {
@@ -298,32 +337,6 @@
       </section>`;
   }
 
-  /* ---------- Roteiro: expandir / recolher ---------- */
-  function bindScripts(root) {
-    root.querySelectorAll(".script").forEach((el) => {
-      const body = el.querySelector(".script__body");
-      const btn = el.querySelector(".script__toggle");
-      if (!body || !btn) return;
-
-      /* Se o roteiro é curto, não precisa recolher. */
-      body.classList.remove("is-collapsed");
-      const full = body.scrollHeight;
-      if (full < 520) {
-        btn.remove();
-        return;
-      }
-      body.classList.add("is-collapsed");
-
-      btn.addEventListener("click", () => {
-        const open = btn.getAttribute("aria-expanded") === "true";
-        btn.setAttribute("aria-expanded", String(!open));
-        body.classList.toggle("is-collapsed", open);
-        btn.querySelector(".script__toggle-label").textContent = open ? "Ler roteiro completo" : "Recolher roteiro";
-        if (open) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    });
-  }
-
   /* ---------- Lightbox ---------- */
   function bindLightbox(root) {
     const dialog = document.getElementById("lightbox");
@@ -374,7 +387,6 @@
       document.head.appendChild(robots);
     } else {
       const index = list.indexOf(p);
-      sectionCount = 0;
       root.innerHTML = [
         hero(p, index),
         challenge(p),
@@ -387,13 +399,12 @@
         nav(p, list),
       ].join("");
       setMeta(p);
-      bindScripts(root);
+      root.insertAdjacentHTML("beforeend", briefingDoc(p));
+      bindBriefing(root);
       bindLightbox(root);
     }
 
     requestAnimationFrame(() => document.documentElement.classList.add("is-loaded"));
     U.reveal(root);
-    U.cursor();
-    U.parallax();
   });
 })();

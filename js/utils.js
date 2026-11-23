@@ -16,9 +16,10 @@
       "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
     })[c]);
 
-  /* Escapa e aplica *itálico* e quebras de linha simples. */
+  /* Escapa e aplica **negrito**, *itálico* e quebras de linha simples. */
   U.inline = (value) =>
     U.esc(value)
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.+?)\*/g, "<em>$1</em>")
       .replace(/\n/g, "<br>");
 
@@ -88,24 +89,39 @@
   U.caseUrl = (slug) =>
     `case.html?slug=${encodeURIComponent(slug)}${U.isPreview ? "&preview=1" : ""}`;
 
-  U.homeUrl = (hash) => `index.html${U.isPreview ? "?preview=1" : ""}${hash || ""}`;
+  U.homeUrl = (hash) => `portfolio.html${U.isPreview ? "?preview=1" : ""}${hash || ""}`;
 
   U.STATUS = {
-    autoral: "Projeto autoral",
+    autoral: "Trabalho fictício",
     veiculada: "Campanha veiculada",
     academico: "Trabalho acadêmico",
   };
 
   const COVER_STYLES = ["accent", "dark", "paper"];
 
+  /* Marca: logo (se houver brandLogo) + nome.
+     Sem brandLogo mas com brandWordmark (logo que já tem o nome), usa ela em todo lugar. */
+  U.brandMark = (p, opts) => {
+    const wm = ((opts && opts.wordmark) || !U.filled(p.brandLogo)) && p.brandWordmark;
+    if (wm && (U.isLocalFile(wm) || U.isUrl(wm))) {
+      return `<img class="brand-wordmark" src="${U.esc(wm)}" alt="${U.esc(p.brand || "")}">`;
+    }
+    const name = U.esc(p.brand || "");
+    if (!U.isLocalFile(p.brandLogo) && !U.isUrl(p.brandLogo)) return name;
+    return `<span class="brand-mark"><img src="${U.esc(p.brandLogo)}" alt="" width="20" height="20">${name}</span>`;
+  };
+
   /* Capa: imagem, se houver; senão, composição tipográfica gerada. */
   U.cover = (p, index, opts) => {
     const o = opts || {};
     const src = o.hero ? p.heroImage || p.coverImage : p.coverImage;
-    const wrap = (html) =>
-      o.parallax === false ? html : `<div class="parallax-layer" data-parallax="${o.speed || 0.08}">${html}</div>`;
     if (U.filled(src)) {
-      return wrap(`<img src="${U.esc(src)}" alt="${U.esc(o.alt || `Imagem de ${U.plain(p.title)}`)}" loading="${o.eager ? "eager" : "lazy"}" decoding="async">`);
+      return `<div class="cover-img"><img src="${U.esc(src)}" alt="${U.esc(p.coverAlt || o.alt || `Imagem de ${U.plain(p.title)}`)}" loading="${o.eager ? "eager" : "lazy"}" decoding="async"></div>`;
+    }
+    /* Capa com a logo da marca em destaque (coverLogo). */
+    if (U.isLocalFile(p.coverLogo) || U.isUrl(p.coverLogo)) {
+      const bg = COVER_STYLES.includes(p.coverStyle) ? p.coverStyle : "dark";
+      return `<div class="logo-cover type-cover--${bg}"><img src="${U.esc(p.coverLogo)}" alt="${U.esc(p.brand || "")}" loading="${o.eager ? "eager" : "lazy"}" decoding="async"></div>`;
     }
     const style = COVER_STYLES.includes(p.coverStyle)
       ? p.coverStyle
@@ -113,10 +129,10 @@
     return (`
       <div class="type-cover type-cover--${style}" aria-hidden="true">
         <span class="type-cover__top">
-          <span>${U.esc(p.category || "")}</span>
+          <span>${U.brandMark(p) || U.esc(p.category || "")}</span>
           <span>${U.esc(p.year || "")}</span>
         </span>
-        <span class="type-cover__title"${o.parallax === false ? "" : ` data-parallax="${o.speed || 0.06}"`}>${U.inline(p.tagline || p.title)}</span>
+        <span class="type-cover__title">${U.inline(p.tagline || p.title)}</span>
         <span class="type-cover__foot">
           <span>${U.esc(U.plain(p.title))}</span>
           <span class="type-cover__mark">N° ${U.pad((index || 0) + 1)}</span>
@@ -211,100 +227,6 @@
       { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
     );
     items.forEach((el) => io.observe(el));
-  };
-
-  const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  /* ---------- Cursor personalizado (anel + ponto com atraso) ----------
-     Só em dispositivos com mouse; desativado em toque e reduced-motion. */
-  U.cursor = () => {
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches || reducedMotion()) return;
-
-    const ring = document.createElement("span");
-    const dot = document.createElement("span");
-    ring.className = "cursor-ring";
-    dot.className = "cursor-dot";
-    ring.setAttribute("aria-hidden", "true");
-    dot.setAttribute("aria-hidden", "true");
-    document.body.append(ring, dot);
-    document.documentElement.classList.add("has-cursor");
-
-    const mouse = { x: -100, y: -100 };
-    const r = { x: -100, y: -100 };
-    const d = { x: -100, y: -100 };
-    let visible = false;
-
-    window.addEventListener("mousemove", (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-      if (!visible) {
-        visible = true;
-        r.x = d.x = mouse.x;
-        r.y = d.y = mouse.y;
-        document.documentElement.classList.add("cursor-visible");
-      }
-    }, { passive: true });
-
-    document.addEventListener("mouseleave", () => {
-      visible = false;
-      document.documentElement.classList.remove("cursor-visible");
-    });
-    window.addEventListener("mousedown", () => document.documentElement.classList.add("cursor-down"));
-    window.addEventListener("mouseup", () => document.documentElement.classList.remove("cursor-down"));
-
-    /* Cresce sobre elementos clicáveis; vira "Ver" sobre cards. */
-    const HOVER = "a, button, [role='button'], label, summary, input, textarea, select";
-    document.addEventListener("mouseover", (e) => {
-      const card = e.target.closest(".work-card__link, .case-nav__next");
-      const hit = e.target.closest(HOVER);
-      document.documentElement.classList.toggle("cursor-hover", Boolean(hit) && !card);
-      document.documentElement.classList.toggle("cursor-view", Boolean(card));
-      document.documentElement.classList.toggle("cursor-zoom", Boolean(e.target.closest(".zoomable")));
-    });
-
-    const tick = () => {
-      r.x += (mouse.x - r.x) * 0.16;
-      r.y += (mouse.y - r.y) * 0.16;
-      d.x += (mouse.x - d.x) * 0.5;
-      d.y += (mouse.y - d.y) * 0.5;
-      ring.style.transform = `translate3d(${r.x}px, ${r.y}px, 0)`;
-      dot.style.transform = `translate3d(${d.x}px, ${d.y}px, 0)`;
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  };
-
-  /* ---------- Parallax na rolagem ----------
-     Qualquer elemento com data-parallax="0.1" desliza conforme a rolagem. */
-  U.parallax = () => {
-    if (reducedMotion()) return;
-    let items = [];
-    let ticking = false;
-
-    const collect = () => (items = [...document.querySelectorAll("[data-parallax]")]);
-    const update = () => {
-      ticking = false;
-      const vh = window.innerHeight;
-      items.forEach((el) => {
-        const box = el.parentElement.getBoundingClientRect();
-        if (box.bottom < -100 || box.top > vh + 100) return;
-        const speed = parseFloat(el.getAttribute("data-parallax")) || 0.1;
-        const offset = (box.top + box.height / 2 - vh / 2) * -speed;
-        el.style.transform = `translate3d(0, ${offset.toFixed(1)}px, 0)`;
-      });
-    };
-    const request = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-
-    collect();
-    update();
-    window.addEventListener("scroll", request, { passive: true });
-    window.addEventListener("resize", () => { collect(); request(); });
-    U.refreshParallax = () => { collect(); request(); };
   };
 
   U.ready = (fn) => {

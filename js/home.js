@@ -37,7 +37,6 @@
         <a class="work-card__link" href="${U.caseUrl(p.slug)}">
           <div class="work-card__media">
             ${U.cover(p, i)}
-            <span class="work-card__cue" aria-hidden="true">Ver case</span>
             ${draft}
           </div>
           <div class="work-card__body">
@@ -45,6 +44,7 @@
               <span class="work-card__index">${U.pad(i + 1)}</span>
               <span>${U.esc(p.category || "")}</span>
               <span>${U.esc(p.year || "")}</span>
+              ${U.STATUS[p.projectType] ? `<span class="work-card__status">${U.esc(U.STATUS[p.projectType])}</span>` : ""}
             </p>
             <h3 class="work-card__title"><span>${U.inline(p.title)}</span></h3>
             ${U.filled(p.brand) ? `<p class="work-card__brand">${U.esc(p.brand)}</p>` : ""}
@@ -185,7 +185,7 @@
     if (C.name) document.title = `${C.name} — ${C.role || "Portfólio"}`;
     requestAnimationFrame(() => document.documentElement.classList.add("is-loaded"));
     U.reveal();
-    U.cursor();
-    U.parallax();
+
+
   });
 })();

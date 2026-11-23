@@ -18,15 +18,6 @@ window.SITE_CONFIG = {
   role: "Redator Publicitário",
   specialties: ["Ideias.", "Roteiros.", "Histórias."],
 
-  /* Headline da primeira dobra.
-     Cada item do array é uma linha. Use *asteriscos* para destacar em itálico. */
-  headline: ["Escrevo o que vem", "*antes* da imagem."],
-
-  /* Apresentação curta abaixo da headline. */
-  intro:
-    "Estudante de Publicidade e Propaganda na Univali e redator em construção. Passei os últimos três anos olhando para os números das campanhas. Agora quero escrever as ideias que vêm antes deles.",
-  introIsPlaceholder: false,
-
   /* ---------- Sobre ---------- */
   about: {
     isPlaceholder: false,
